@@ -1,58 +1,40 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace BackgroundEmailService.Services
 {
-    public class EmailService : IHostedLifecycleService
+    public class EmailService : BackgroundService
     {
         private readonly ILogger<EmailService> _logger;
 
-        public EmailService(ILogger<EmailService> logger)
+        private readonly IConfiguration _config;
+
+        public EmailService(ILogger<EmailService> logger, IConfiguration config)
         {
             _logger = logger;
-        }
-        
-        // Load Db config and establish db connection
-        public Task StartingAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Starting EmailService...");
-            return Task.CompletedTask;
-        }
-         
-
-         // fetch the emails 
-        public Task StartedAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Started EmailService...");
-            return Task.CompletedTask;
-        }
-        
-
-        // Do the email service here
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Start EmailService...");
-            return Task.CompletedTask;
+            _config = config;
         }
 
-        public Task StoppingAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Stopping EmailService...");
-            return Task.CompletedTask;
-        }
+            int counter = 1;
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                _logger.LogInformation("Log" + counter++);
 
-        public Task StoppedAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Stopped EmailService...");
-            return Task.CompletedTask;
-        }
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Stop Email Service...");
-            return Task.CompletedTask;
+                if (counter == 10)
+                {
+                    _logger.LogInformation("Applicaton Stopping");
+                    break;
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+            }
+
+            _logger.LogInformation("Background service stopped.");
         }
     }
 }
