@@ -1,0 +1,7 @@
+# Ignore build and publish folders
+bin/
+obj/
+
+
+# Ignore VS Code settings (if you're using it)
+.vscode/
