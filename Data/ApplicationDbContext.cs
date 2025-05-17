@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-
+using BackgroundEmailService.Models;
 
 namespace BackgroundEmailService.Data
 {
@@ -11,8 +11,11 @@ namespace BackgroundEmailService.Data
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
+
         }
-        
+
+
+        public DbSet<Email> Emails { get; set; }
+
     }
 }
