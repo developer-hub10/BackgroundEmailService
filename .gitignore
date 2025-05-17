@@ -5,3 +5,6 @@ obj/
 
 # Ignore VS Code settings (if you're using it)
 .vscode/
+
+BackgroundEmailService.http
+BackgroundEmailService.sln
