@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BackgroundEmailService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5d74d83890e35a43900c71da2e92b1188b8e583")]
 [assembly: System.Reflection.AssemblyProductAttribute("BackgroundEmailService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BackgroundEmailService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
