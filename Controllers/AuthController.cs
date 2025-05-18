@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BackgroundEmailService.Repository;
 using BackgroundEmailService.Models;
 using BackgroundEmailService.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackgroundEmailService.Controllers 
 {
@@ -19,7 +20,8 @@ namespace BackgroundEmailService.Controllers
       {
         _authRepo = authRepo;
       }
-
+      
+      [AllowAnonymous]
       [HttpPost("register")]
       public async Task<IActionResult> CreateUser([FromBody] Auth data)
       {
@@ -27,7 +29,8 @@ namespace BackgroundEmailService.Controllers
          
          return Ok("Sucessfully Registered");
       }
-
+      
+      [AllowAnonymous]
       [HttpPost("login")]
       public async Task<IActionResult> CreateUser([FromBody] AuthRequest request)
       {

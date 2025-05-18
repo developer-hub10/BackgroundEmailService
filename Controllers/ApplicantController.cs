@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using BackgroundEmailService.Models;
 using BackgroundEmailService.Repository;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackgroundEmailService.Controllers
 {
@@ -18,7 +18,8 @@ namespace BackgroundEmailService.Controllers
         {
             _applicantRepository = applicantRepository;
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("/apply-job")]
         public async Task<IActionResult> ApplyJob([FromBody] Applicant data)
         {
@@ -28,7 +29,8 @@ namespace BackgroundEmailService.Controllers
 
            return Ok("Succesfully Applied for this job");
         }
-
+        
+        [Authorize(Roles="admin")]
         [HttpGet("/get-all")]
         public async Task<IActionResult> GetAllApplicants() 
         {
