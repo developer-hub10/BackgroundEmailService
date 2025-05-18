@@ -13,9 +13,18 @@ namespace BackgroundEmailService.Data
         {
 
         }
+      
 
+      
 
         public DbSet<Email> Emails { get; set; }
 
+        public DbSet<Applicant> Applicants { get; set; }
+
     }
+    
+
+    
+
+   
 }

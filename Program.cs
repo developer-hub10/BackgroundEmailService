@@ -1,8 +1,12 @@
 using BackgroundEmailService.Data;
 using BackgroundEmailService.Services;
 using Microsoft.EntityFrameworkCore;
+using BackgroundEmailService.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -10,15 +14,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+// Dependency Injection
+builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
+
 // Hosted Servicce
-builder.Services.AddHostedService<EmailService>();
+// builder.Services.AddHostedService<EmailService>();
 
 // Database Context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("MySqlConnection"),
     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MySqlConnection"))
 ));
-
 
 
 var app = builder.Build();
