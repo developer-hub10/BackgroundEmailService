@@ -3,6 +3,11 @@ using BackgroundEmailService.Services;
 using Microsoft.EntityFrameworkCore;
 using BackgroundEmailService.Repository;
 
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -16,6 +21,21 @@ builder.Services.AddControllers();
 
 // Dependency Injection
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+       .AddJwtBearer(options => 
+           options.TokenValidationParameters = new TokenValidationParameters
+           {
+             ValidateIssuer = true,
+             ValidIssuer = builder.Configuration["AppSettings:Issuer"],
+             ValidateAudience = true,
+             ValidAudience = builder.Configuration["AppSettings:Audience"],
+             ValidateLifetime = true,
+             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]!)),
+             ValidateIssuerSigningKey = true,
+           }
+       );
 
 // Hosted Servicce
 // builder.Services.AddHostedService<EmailService>();
@@ -29,12 +49,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var app = builder.Build();
 
+
+app.UseAuthentication();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthorization();
 
 app.UseHttpsRedirection();
 app.MapControllers();

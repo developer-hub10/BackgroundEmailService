@@ -52,6 +52,29 @@ namespace BackgroundEmailService.Migrations
                     b.ToTable("Applicants");
                 });
 
+            modelBuilder.Entity("BackgroundEmailService.Models.Auth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Auths");
+                });
+
             modelBuilder.Entity("BackgroundEmailService.Models.Email", b =>
                 {
                     b.Property<int>("id")

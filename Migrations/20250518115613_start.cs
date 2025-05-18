@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BackgroundEmailService.Migrations
 {
     /// <inheritdoc />
-    public partial class createdemailandapplicantmodel : Migration
+    public partial class start : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,25 @@ namespace BackgroundEmailService.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Auths",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Username = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Role = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auths", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Emails",
                 columns: table => new
                 {
@@ -62,6 +81,9 @@ namespace BackgroundEmailService.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Applicants");
+
+            migrationBuilder.DropTable(
+                name: "Auths");
 
             migrationBuilder.DropTable(
                 name: "Emails");
