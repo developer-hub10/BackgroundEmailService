@@ -5,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace BackgroundEmailService.Services
 {
-    public class EmailService : BackgroundService
+    public class MyBackgroundService : BackgroundService
     {
-        private readonly ILogger<EmailService> _logger;
+        private readonly ILogger<MyBackgroundService> _logger;
 
         private readonly IConfiguration _config;
 
-        public EmailService(ILogger<EmailService> logger, IConfiguration config)
+        public MyBackgroundService(ILogger<MyBackgroundService> logger, IConfiguration config)
         {
             _logger = logger;
             _config = config;
