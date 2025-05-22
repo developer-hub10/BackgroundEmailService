@@ -1,13 +1,16 @@
 using BackgroundEmailService.Data;
 using BackgroundEmailService.Services;
-using Microsoft.EntityFrameworkCore;
+using BackgroundEmailService.IMappers;
+using BackgroundEmailService.Mappers;
 using BackgroundEmailService.Repository;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Authorization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+builder.Services.AddScoped<IApplicantMapper, ApplicantMapper>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
        .AddJwtBearer(options => 

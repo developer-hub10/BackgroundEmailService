@@ -1,8 +1,10 @@
 
-namespace BackgroundEmailService.Models
+
+namespace BackgroundEmailService.Dtos
 {
 
-    public class Applicant
+
+    public class ApplicantResponse
     {
 
         public int Id { get; set; }
@@ -17,14 +19,10 @@ namespace BackgroundEmailService.Models
 
         public int ExpInYears { get; set; }
 
-        public byte[] ImageData { get; set; }
-
-        public string ImageType { get; set; }
-
-        public string ImageName { get; set; }
+        public string ImageUrl { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        
+
         public DateTime UpdatedAt { get; set; }
     }
 }

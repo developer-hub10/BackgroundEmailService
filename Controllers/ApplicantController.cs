@@ -4,6 +4,10 @@ using BackgroundEmailService.Models;
 using BackgroundEmailService.Repository;
 using Microsoft.AspNetCore.Authorization;
 
+using BackgroundEmailService.Dtos;
+using BackgroundEmailService.IMappers;
+using BackgroundEmailService.Services;
+
 namespace BackgroundEmailService.Controllers
 {
 
@@ -11,34 +15,46 @@ namespace BackgroundEmailService.Controllers
     [Route("api/applicant")]
     public class ApplicantController : ControllerBase
     {
-        
+
         private readonly IApplicantRepository _applicantRepository;
 
-        public ApplicantController(IApplicantRepository applicantRepository)
+        private readonly IApplicantMapper _applicantMapper;
+
+        public ApplicantController(IApplicantRepository applicantRepository, IApplicantMapper applicantMapper)
         {
             _applicantRepository = applicantRepository;
+            _applicantMapper = applicantMapper;
         }
-        
+
         [AllowAnonymous]
         [HttpPost("/apply-job")]
-        public async Task<IActionResult> ApplyJob([FromBody] Applicant data)
+        public async Task<IActionResult> ApplyJob([FromForm] ApplicantRequest request)
         {
-           var result = await _applicantRepository.RegisterApplicantAsync(data);
 
-           if(result == null) return NotFound("404 try again sometimes later....");
+            Applicant data = _applicantMapper.ToApplicant(request);
+            var result = await _applicantRepository.RegisterApplicantAsync(data);
 
-           return Ok("Succesfully Applied for this job");
+            if (result == null) return NotFound("404 try again sometimes later....");
+
+            return Ok("Succesfully Applied for this job");
         }
-        
-        [Authorize(Roles="admin")]
+
+        [Authorize(Roles = "admin")]
         [HttpGet("/get-all")]
-        public async Task<IActionResult> GetAllApplicants() 
+        public async Task<IActionResult> GetAllApplicants()
         {
-            var result = await _applicantRepository.GetAllApplicant();
+            List<Applicant> applicantList = await _applicantRepository.GetAllApplicant();
+            List<ApplicantResponse> applicantResponseList = new List<ApplicantResponse>();
 
-            if(result == null) return NotFound("No applicants found...");
+            foreach (Applicant applicant in applicantList)
+            {
+                ApplicantResponse response = _applicantMapper.ToResponse(applicant);
+                applicantResponseList.Add(response);
+            }
 
-            return Ok(result);
+            if (applicantResponseList == null) return NotFound("No applicants found...");
+
+            return Ok(applicantResponseList);
         }
 
     }
