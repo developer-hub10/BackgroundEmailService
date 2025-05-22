@@ -5,12 +5,14 @@ namespace BackgroundEmailService.Repository
 {
 
 
-    public interface IApplicantRepository 
+    public interface IApplicantRepository
     {
 
-         public Task<int> RegisterApplicantAsync(Applicant data);
-        
-         public Task<List<Applicant>> GetAllApplicant();
+        public Task<int> RegisterApplicantAsync(Applicant data);
+
+        public Task<List<Applicant>> GetAllApplicant();
+
+        public Task<Applicant> GetApplicantById(int id);
     }
 
 

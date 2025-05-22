@@ -40,7 +40,7 @@ namespace BackgroundEmailService.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpGet("/get-all")]
+        [HttpGet("get-all")]
         public async Task<IActionResult> GetAllApplicants()
         {
             List<Applicant> applicantList = await _applicantRepository.GetAllApplicant();
@@ -56,6 +56,19 @@ namespace BackgroundEmailService.Controllers
 
             return Ok(applicantResponseList);
         }
+
+        //   "imageUrl": "http://localhost:5000/api/applicant/resume/2",
+        [Authorize(Roles = "admin")]
+        [HttpGet("resume/{id}")]
+        public async Task<IActionResult> GetApplicantResumeById([FromRoute] int id)
+        {
+            Applicant applicant = await _applicantRepository.GetApplicantById(id);
+
+            if (applicant == null) return NotFound($"No Applicant exist with this {id}");
+            if (applicant.ImageData == null) return NotFound("Resume not found for this id");
+            return File(applicant.ImageData, applicant.ImageType, applicant.ImageName);
+        }
+        
 
     }
 
