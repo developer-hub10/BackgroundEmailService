@@ -41,8 +41,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            }
        );
 
-// Hosted Servicce
-// builder.Services.AddHostedService<EmailService>();
 
 // Database Context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
