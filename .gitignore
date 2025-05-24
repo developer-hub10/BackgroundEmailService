@@ -7,5 +7,5 @@ obj/
 .vscode/
 
 BackgroundEmailService.http
-appsettings.json
+
 
