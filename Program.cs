@@ -31,6 +31,10 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<IApplicantMapper, ApplicantMapper>();
 
+// Background Service
+builder.Services.AddHostedService<MyBackgroundService>();
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
        .AddJwtBearer(options => 
            options.TokenValidationParameters = new TokenValidationParameters

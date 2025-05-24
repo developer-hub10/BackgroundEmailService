@@ -12,6 +12,7 @@ namespace BackgroundEmailService.Controllers
     {
 
         private readonly IEmailRepository _emailRepo;
+        
         public EmailController(IEmailRepository emailRepo)
         {
             _emailRepo = emailRepo;

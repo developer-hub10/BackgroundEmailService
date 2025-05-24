@@ -33,7 +33,7 @@ namespace BackgroundEmailService.Services
             string connectionString = _config.GetConnectionString("MySqlConnection");
             await using (var conn = new MySqlConnection(connectionString))
             {
-                string query = $@"SELECT email FROM Emails WHERE EmailStatus = 'pending'";
+                string query = $@"SELECT Id, UserEmail FROM Emails WHERE EmailStatus = 'pending'";
                 var result = await conn.QueryAsync<Email>(query);
                 return result.ToList();
             }
@@ -55,8 +55,8 @@ namespace BackgroundEmailService.Services
 
                 for (int index = 0; index < batch.Count; index++)
                 {
-                    insertQuery.Append($"(@Email{index}),");  // Note the closing parenthesis and comma
-                    parameters.Add($"Email{index}", batch[index].UserEmail);
+                    insertQuery.Append($"(@UserEmail{index}),");  // Note the closing parenthesis and comma
+                    parameters.Add($"UserEmail{index}", batch[index].UserEmail);
                 }
 
                 insertQuery.Length--; // Remove the last comma
@@ -76,7 +76,7 @@ namespace BackgroundEmailService.Services
             await using (var connection = new MySqlConnection(connectionString))
             {
 
-                string updateQuery = $@"UPDATE Email SET EmailStatus=@Status, Times=@Times
+                string updateQuery = $@"UPDATE Emails SET EmailStatus=@Status, Times=@Times
                                        WHERE Id=@Id";
 
                 int times = email.Times + 1;
