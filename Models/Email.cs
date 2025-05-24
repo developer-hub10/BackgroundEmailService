@@ -2,6 +2,14 @@ namespace BackgroundEmailService.Models
 {
 
 
+    public enum MyEmailStatus
+    {
+
+        Success,
+         
+        Failed
+    }
+    
     public class Email
     {
 
@@ -12,6 +20,6 @@ namespace BackgroundEmailService.Models
         public string EmailStatus { get; set; }
 
         public int Times { get; set; }
-        
+
     }
 }

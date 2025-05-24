@@ -24,10 +24,10 @@ namespace BackgroundEmailService.Data
         {
             modelBuilder.Entity<Email>(entity =>
             {
-                entity.Property(e => e.status)
+                entity.Property(e => e.EmailStatus)
                       .HasDefaultValue("pending");
 
-                entity.Property(e => e.times)
+                entity.Property(e => e.Times)
                       .HasDefaultValue(0);
             });
 

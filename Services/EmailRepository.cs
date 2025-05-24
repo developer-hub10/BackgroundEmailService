@@ -17,8 +17,6 @@ namespace BackgroundEmailService.Services
 
         private readonly ApplicationDbContext _context;
 
-
-
         private readonly IConfiguration _config;
         public EmailRepository(ApplicationDbContext context, IConfiguration config)
         {
@@ -35,7 +33,7 @@ namespace BackgroundEmailService.Services
             string connectionString = _config.GetConnectionString("MySqlConnection");
             await using (var conn = new MySqlConnection(connectionString))
             {
-                string query = $@"SELECT email FROM Emails WHERE status = 'pending'";
+                string query = $@"SELECT email FROM Emails WHERE EmailStatus = 'pending'";
                 var result = await conn.QueryAsync<Email>(query);
                 return result.ToList();
             }
@@ -51,7 +49,7 @@ namespace BackgroundEmailService.Services
             for (int start = 0; start < emailList.Count; start += batchSize)
             {
                 var batch = emailList.Skip(start).Take(batchSize).ToList();
-                var insertQuery = new StringBuilder("INSERT INTO Emails (email) VALUES ");
+                var insertQuery = new StringBuilder("INSERT INTO Emails (UserEmail) VALUES ");
 
                 var parameters = new DynamicParameters();
 
@@ -69,11 +67,33 @@ namespace BackgroundEmailService.Services
             return rowsAff;
         }
 
-        // public Task RegisterEmail(Email email);
 
-        // public Task UpdateEmail(Email email);
+        public async Task<int> UpdateEmailStatus(Email email)
+        {
 
-        // public Task DeleteEmail(int id);
+            string connectionString = _config.GetConnectionString("MySqlConnection");
+            int rowsAff = 0;
+            await using (var connection = new MySqlConnection(connectionString))
+            {
+
+                string updateQuery = $@"UPDATE Email SET EmailStatus=@Status, Times=@Times
+                                       WHERE Id=@Id";
+
+                int times = email.Times + 1;
+                var parameters = new
+                {
+                    Status = email.EmailStatus,
+                    Times = times,
+                    Id = email.Id
+                };
+
+                rowsAff = await connection.ExecuteAsync(updateQuery, parameters);
+            }
+
+            return rowsAff;
+        }
+
+     
     }
 
 

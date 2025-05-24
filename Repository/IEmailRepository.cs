@@ -13,10 +13,8 @@ namespace BackgroundEmailService.Repository
 
         public Task<int> RegisterEmails(List<Email> emailList);
 
-        // public Task RegisterEmail(Email email);
+        public Task<int> UpdateEmailStatus(Email email);
 
-        // public Task UpdateEmail(Email email);
-
-        // public Task DeleteEmail(int id);
+        
     }
 }
