@@ -9,7 +9,7 @@ namespace BackgroundEmailService.Repository
 
         public Task<List<Email>> GetAllEmails();
 
-         public Task<List<Email>> GetPendingEmails();
+        public Task<List<Email>> GetPendingEmails();
 
         public Task<int> RegisterEmails(List<Email> emailList);
 

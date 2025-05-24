@@ -5,13 +5,13 @@ namespace BackgroundEmailService.Models
     public class Email
     {
 
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public string email { get; set; }
+        public string UserEmail { get; set; }
 
-        public string status { get; set; }
+        public string EmailStatus { get; set; }
 
-        public int times { get; set; }
+        public int Times { get; set; }
         
     }
 }

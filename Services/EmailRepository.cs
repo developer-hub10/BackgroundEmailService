@@ -17,7 +17,7 @@ namespace BackgroundEmailService.Services
 
         private readonly ApplicationDbContext _context;
 
-        
+
 
         private readonly IConfiguration _config;
         public EmailRepository(ApplicationDbContext context, IConfiguration config)
@@ -41,33 +41,33 @@ namespace BackgroundEmailService.Services
             }
         }
 
-       public async Task<int> RegisterEmails(List<Email> emailList)
-{
-    string connectionString = _config.GetConnectionString("MySqlConnection");
-    await using var conn = new MySqlConnection(connectionString);
-    int batchSize = 100;
-    int rowsAff = 0;
-
-    for (int start = 0; start < emailList.Count; start += batchSize)
-    {
-        var batch = emailList.Skip(start).Take(batchSize).ToList();
-        var insertQuery = new StringBuilder("INSERT INTO Emails (email) VALUES ");
-
-        var parameters = new DynamicParameters();
-
-        for (int index = 0; index < batch.Count; index++)
+        public async Task<int> RegisterEmails(List<Email> emailList)
         {
-            insertQuery.Append($"(@Email{index}),");  // Note the closing parenthesis and comma
-            parameters.Add($"Email{index}", batch[index].email);
+            string connectionString = _config.GetConnectionString("MySqlConnection");
+            await using var conn = new MySqlConnection(connectionString);
+            int batchSize = 100;
+            int rowsAff = 0;
+
+            for (int start = 0; start < emailList.Count; start += batchSize)
+            {
+                var batch = emailList.Skip(start).Take(batchSize).ToList();
+                var insertQuery = new StringBuilder("INSERT INTO Emails (email) VALUES ");
+
+                var parameters = new DynamicParameters();
+
+                for (int index = 0; index < batch.Count; index++)
+                {
+                    insertQuery.Append($"(@Email{index}),");  // Note the closing parenthesis and comma
+                    parameters.Add($"Email{index}", batch[index].UserEmail);
+                }
+
+                insertQuery.Length--; // Remove the last comma
+
+                rowsAff += await conn.ExecuteAsync(insertQuery.ToString(), parameters); // Use += to accumulate affected rows
+            }
+
+            return rowsAff;
         }
-
-        insertQuery.Length--; // Remove the last comma
-
-        rowsAff += await conn.ExecuteAsync(insertQuery.ToString(), parameters); // Use += to accumulate affected rows
-    }
-
-    return rowsAff;
-}
 
         // public Task RegisterEmail(Email email);
 
