@@ -50,7 +50,7 @@ namespace BackgroundEmailService.Mappers
 
             string baseUrl = _config.GetValue<string>("AppSettings:BaseUrl");
             string imageUrl = $"{baseUrl}/api/applicant/resume/{applicant.Id}";
-
+            // http://localhost:5000/api/applicant/resume/2
             return new ApplicantResponse
             {
                 Id = applicant.Id,
