@@ -20,7 +20,7 @@ namespace BackgroundEmailService.Services
 
 
         public async Task<int> RegisterApplicantAsync(Applicant data)
-        {
+        {  
             await _context.Applicants.AddAsync(data);
             await _context.SaveChangesAsync();
             return data.Id;

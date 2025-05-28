@@ -13,7 +13,6 @@ namespace BackgroundEmailService.Controllers
     public class AuthController : ControllerBase
     {
       
-
       private readonly IAuthRepository _authRepo;
 
       public AuthController(IAuthRepository authRepo) 
@@ -40,10 +39,6 @@ namespace BackgroundEmailService.Controllers
 
          return Ok(result);
       }
-
-
-
-
 
     }
 }

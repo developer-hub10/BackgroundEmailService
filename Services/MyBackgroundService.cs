@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BackgroundEmailService.Services
 {
-    public class MyBackgroundService : BackgroundService
+    public class MyBackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfiguration _config;
@@ -37,13 +37,9 @@ namespace BackgroundEmailService.Services
             From = _config.GetValue<string>("SmtpSettings:From");
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+         public  async Task ExecuteAsync()
         {
-            _logger.LogInformation("Background email service started.");
-
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                _logger.LogInformation("Checking for pending emails...");
+            
 
                 try
                 {
@@ -91,11 +87,11 @@ namespace BackgroundEmailService.Services
                     _logger.LogError(ex, "Unexpected error while processing emails.");
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken);
+               
             }
 
-            _logger.LogInformation("Background email service stopping.");
-        }
+            
+        
 
         private async Task SendEmail(string to, string subject, string body)
         {
