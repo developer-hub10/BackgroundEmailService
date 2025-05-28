@@ -33,7 +33,7 @@ namespace BackgroundEmailService.Services
             string connectionString = _config.GetConnectionString("MySqlConnection");
             await using (var conn = new MySqlConnection(connectionString))
             {
-                string query = $@"SELECT Id, UserEmail FROM Emails WHERE EmailStatus = 'pending'";
+                string query = $@"SELECT Id, UserEmail, Times FROM Emails WHERE EmailStatus = 'pending'";
                 var result = await conn.QueryAsync<Email>(query);
                 return result.ToList();
             }
@@ -78,7 +78,6 @@ namespace BackgroundEmailService.Services
 
                 string updateQuery = $@"UPDATE Emails SET EmailStatus=@Status, Times=@Times
                                        WHERE Id=@Id";
-
                 int times = email.Times + 1;
                 var parameters = new
                 {

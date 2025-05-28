@@ -66,9 +66,14 @@ builder.Services.AddHangfire(config =>
         new MySqlStorageOptions()
     ))
 );
-builder.Services.AddHangfireServer();
+builder.Services.AddHangfireServer(options =>
+{
+    options.WorkerCount = Environment.ProcessorCount * 2;; 
+});
 
 var app = builder.Build();
+
+
 
 // 6. Middleware pipeline
 app.UseHttpsRedirection();
@@ -87,6 +92,7 @@ app.MapControllers();
 // 7. Hangfire Dashboard & Recurring Job
 app.UseHangfireDashboard("/hangfire");
 RecurringJob.AddOrUpdate<MyBackgroundService>(
+    "send-email-job",
     job => job.ExecuteAsync(),
     Cron.MinuteInterval(2)
 );

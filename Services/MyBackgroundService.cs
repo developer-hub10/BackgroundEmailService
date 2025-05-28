@@ -49,6 +49,7 @@ namespace BackgroundEmailService.Services
                         List<Email> pendingEmailList = await emailRepo.GetPendingEmails();
 
                         _logger.LogInformation("Found {Count} pending emails.", pendingEmailList.Count);
+                        
 
                         string body = "<h1>Hello this is grow more</h1>";
 
