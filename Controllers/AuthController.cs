@@ -23,7 +23,7 @@ namespace BackgroundEmailService.Controllers
       
       [AllowAnonymous]
       [HttpPost("register")]
-      public async Task<IActionResult> CreateUser([FromBody] Auth data)
+      public async Task<IActionResult> CreateAuth([FromBody] Auth data)
       {
           await _authRepo.Register(data);
          
@@ -32,7 +32,7 @@ namespace BackgroundEmailService.Controllers
       
       [AllowAnonymous]
       [HttpPost("login")]
-      public async Task<IActionResult> CreateUser([FromBody] AuthRequest request)
+      public async Task<IActionResult> LoginAuth([FromBody] AuthRequest request)
       {
          var result = await _authRepo.Login(request.Username, request.Password);
          
