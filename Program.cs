@@ -19,6 +19,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.json",
+                                  optional: true,
+                                  reloadOnChange: true)
+                                     .AddEnvironmentVariables();
+
 // 1. Add configuration and services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
